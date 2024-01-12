@@ -1,0 +1,41 @@
+{% extends "global/base.html" %}
+
+{% block content %}
+    <div class="form-wrapper">
+        <h2>Contact</h2>
+        <form action="{{ form_action }}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-content">
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+                {% if field.name == 'picture' and field.value.url%}
+                    <div class="form-group">
+                        <imc src="{{ field.value.url }}" alt=""></imc>
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if form.non_field_errors %}
+                <div class="form-content">
+                    <div class="form-group">
+                        <div class="message error">
+                        {{ form.non_field_errors }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            
+            <div class="form-content">
+                <div class="form-group">
+                    <button type="submit" class="btn">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
+
